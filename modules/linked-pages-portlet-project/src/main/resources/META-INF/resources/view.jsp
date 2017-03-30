@@ -19,7 +19,11 @@
 <%
 String portletNamespace = PortalUtil.getPortletNamespace(LinkedPagesPortletKeys.LINKED_PAGES);
 
-LinkedPagesView linkedPagesView = new LinkedPagesView(themeDisplay);
+LinkedPagesView linkedPagesView = new View(themeDisplay);
+
+WikiPage wikiPage = linkedPagesView.getWikiPage();
+
+List<Task> availableTasks = TaskHandlerUtil.getRunningVotes(wikiPage.getPageId());
 %>
 
 <div>
@@ -30,38 +34,65 @@ LinkedPagesView linkedPagesView = new LinkedPagesView(themeDisplay);
 			</div>
 
 			<div class="sidebar-body"></div>
-			<c:choose>
-				<c:when test="<%= linkedPagesView.getLinkedPages().isEmpty() %>">
-					<div>
-						No Wiki page is available
-					</div>
-				</c:when>
-				<c:otherwise>
-					<div>
-						Linked Pages:
-					</div>
 
-					<div class="">
-						<ul class="nav">
+			<div class="content">
+				<h4 class="header toggler-header-collapsed">Linked Pages</h4>
+				<c:choose>
+					<c:when test="<%= linkedPagesView.getLinkedPages().isEmpty() %>">
+						<div class="content toggler-content-collapsed">
+							No Wiki page is available
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="content toggler-content-collapsed">
+							<ul class="nav">
 
-							<%
-							for (PageLink pageLink : linkedPagesView.getLinkedPages()) {
-							%>
+								<%
+								for (PageLink pageLink : linkedPagesView.getLinkedPages()) {
+								%>
 
-								<li class="">
-									<a href="<%= pageLink.getPageLink() %>" style="color:#6a708b;">
-										<%= pageLink.getPageTitle() %>
-									</a>
-								</li>
+									<li class="">
+										<a href="<%= pageLink.getPageLink() %>" style="color:#6a708b;">
+											<%= pageLink.getPageTitle() %>
+										</a>
+									</li>
 
-							<%
+								<%
+								}
+								%>
+
+							</ul>
+						</div>
+					</c:otherwise>
+				</c:choose>
+
+				<h4 class="header toggler-header-collapsed">Votings</h4>
+
+				<c:choose>
+					<c:when test="<%= availableTasks.isEmpty() %>">
+						<div class="content toggler-content-collapsed">
+							No voting tasks are available
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="content toggler-content-collapsed">
+						<%
+							for (Task task : availableTasks) {
+								
+						%>
+								<div>
+									<h5><%= task.getTaskName() %></h5>
+									<aui:input label="Agree" name="<%= task.getTaskName() %>" type="radio" value="<%= true %>" />
+
+									<aui:input label="Not Agree" name="<%= task.getTaskName() %>" type="radio" value="<%= false %>" />
+								</div>
+						<%
 							}
-							%>
-
-						</ul>
-					</div>
-				</c:otherwise>
-			</c:choose>
+						%>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</div>
 		</div>
 	</div>
 </div>
