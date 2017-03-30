@@ -31,6 +31,8 @@ page import="com.liferay.micro.maintainance.util.TaskHandlerUtil" %><%@
 page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %><%@
 page import="com.liferay.portal.kernel.portlet.PortletURLFactoryUtil" %><%@
 page import="com.liferay.portal.kernel.util.PortalUtil" %> <%@
+page import="java.util.List" %> <%@
+page import="java.util.ArrayList" %> <%@
 page import="com.liferay.wiki.model.WikiPage" %>
 
 <%@ page import="javax.portlet.PortletRequest" %><%@

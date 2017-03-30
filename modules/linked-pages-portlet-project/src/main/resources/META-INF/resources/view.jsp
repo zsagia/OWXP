@@ -19,11 +19,16 @@
 <%
 String portletNamespace = PortalUtil.getPortletNamespace(LinkedPagesPortletKeys.LINKED_PAGES);
 
-LinkedPagesView linkedPagesView = new View(themeDisplay);
+LinkedPagesView linkedPagesView = new LinkedPagesView(themeDisplay);
 
 WikiPage wikiPage = linkedPagesView.getWikiPage();
 
-List<Task> availableTasks = TaskHandlerUtil.getRunningVotes(wikiPage.getPageId());
+List<Task> availableTasks = new ArrayList<Task>();
+
+if (wikiPage != null) {
+	availableTasks = TaskHandlerUtil.getRunningVotes(wikiPage.getPageId());
+}
+
 %>
 
 <div>
